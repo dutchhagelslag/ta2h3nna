@@ -1,0 +1,18 @@
+language: python
+python:
+    - '3.8'
+
+install:
+    - pip install -r docker/requirements-dev.txt
+
+env:
+    - PYTHONPATH=/home/travis/build/gcallah/OnlineDevops
+
+script:
+    - make tests
+
+# after_success:
+#     - ./deploy.sh
+
+# notifications:
+#   slack: 
