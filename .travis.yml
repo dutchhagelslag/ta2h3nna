@@ -3,7 +3,7 @@ python:
     - '3.8'
 
 install:
-    - pip install -r docker/requirements-dev.txt
+    - pip install -r requirements-dev.txt
 
 env:
     - PYTHONPATH=/home/me/school/test_project
