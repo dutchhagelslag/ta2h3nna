@@ -6,7 +6,7 @@ install:
     - pip install -r docker/requirements-dev.txt
 
 env:
-    - PYTHONPATH=/usr/bin/python3
+    - PYTHONPATH=/home/me/school/test_project
 
 script:
     - make tests
