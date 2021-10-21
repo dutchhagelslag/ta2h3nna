@@ -11,11 +11,11 @@ from flask_restx import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
-HELLO2 = 'Hola'
+HELLO = 'Hola'
 WORLD = 'mundo'
 
 
-@api.route('/hello')
+@api.route('/hello2')
 class HelloWorld(Resource):
     """
     The purpose of the HelloWorld class is to have a simple test to see if the
