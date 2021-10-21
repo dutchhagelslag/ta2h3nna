@@ -11,7 +11,7 @@ from flask_restx import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
-HELLO2 = 'Hola'
+HELLO = 'Hola'
 WORLD = 'mundo'
 
 
