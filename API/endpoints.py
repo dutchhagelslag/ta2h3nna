@@ -57,9 +57,9 @@ class CreateUser(Resource):
 
 @api.route('/search_design/<design>')
 class CreateSearchDesign(Resource):
-	"""
-	This class is for creating initial search query
-	"""
+    """
+    This class is for creating initial search query
+    """
     @api.response(HTTPStatus.OK, 'Success')
     def post(self, design):
         return design
