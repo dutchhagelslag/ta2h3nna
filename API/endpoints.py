@@ -14,6 +14,7 @@ api = Api(app)
 HELLO = 'Hola'
 WORLD = 'mundo'
 
+
 @api.route('/hello2')
 class HelloWorld(Resource):
     """

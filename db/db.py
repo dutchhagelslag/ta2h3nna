@@ -8,10 +8,11 @@ import os
 
 DEMO_HOME = os.path.abspath(os.curdir)
 
+
 def get_test_image_url(word):
     """
     A function to return path to image to use when testing the API
     """
     # check word or something later idk probably will pivot anyways idc
     if True:
-        return f"{DEMO_HOME}/hmm.jpg"
+        return f"{DEMO_HOME}/hmm.png"
