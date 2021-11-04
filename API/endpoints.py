@@ -62,7 +62,4 @@ class CreateSearchDesign(Resource):
 	"""
     @api.response(HTTPStatus.OK, 'Success')
     def post(self, design):
-        """
-        This method adds a user to the chatroom.
-        """
         return design
