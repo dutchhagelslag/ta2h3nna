@@ -13,6 +13,7 @@ https://ta2h3nna.herokuapp.com/
 
 
 ## Design
+- The user can input a string into the search field which will show the user an image of a tattoo suggestion.:w
 - Use Flask_restx to build an API server
 - Handle each major requirement with an API endpoint
 - Use Agile development to deliver multiple iterations of product to receive feedback
