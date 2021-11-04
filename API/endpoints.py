@@ -54,3 +54,15 @@ class CreateUser(Resource):
         This method adds a user to the chatroom.
         """
         return username
+
+@api.route('/search_design/<Design_Request>')
+class CreateSearchDesign(Resource):
+	"""
+	This class is for creating initial search query
+	"""
+    @api.response(HTTPStatus.OK, 'Success')
+    def post(self, design):
+        """
+        This method adds a user to the chatroom.
+        """
+        return design
