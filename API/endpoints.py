@@ -55,7 +55,7 @@ class CreateUser(Resource):
         """
         return username
 
-@api.route('/search_design/<Design_Request>')
+@api.route('/search_design/<design>')
 class CreateSearchDesign(Resource):
 	"""
 	This class is for creating initial search query
