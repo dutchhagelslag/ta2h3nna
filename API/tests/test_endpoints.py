@@ -7,7 +7,6 @@ from flask_restx import Resource, Api
 
 import endpoints as ep
 
-
 class EndpointTestCase(TestCase):
     # def setUp(self):
     #     pass

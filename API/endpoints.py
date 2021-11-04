@@ -14,7 +14,6 @@ api = Api(app)
 HELLO = 'Hola'
 WORLD = 'mundo'
 
-
 @api.route('/hello2')
 class HelloWorld(Resource):
     """
@@ -39,6 +38,7 @@ class Tatoo(Resource):
         The 'get()' method returns an image associated with a word
         """
         filename = db.get_test_image_url
+        # return filename
         return Flask.send_static_file(filename)
 
 
