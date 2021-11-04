@@ -15,5 +15,5 @@ https://ta2h3nna.herokuapp.com/
 ## Design
 - Use Flask_restx to build an API server
 - Handle each major requirement with an API endpoint
-- Use Agile(Test Drive) development
+- Use Agile development to deliver multiple iterations of product to receive feedback
 - Use Swagger, pydoc and good docstrings for documentation.
