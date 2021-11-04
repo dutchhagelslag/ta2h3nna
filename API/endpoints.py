@@ -6,7 +6,8 @@ The endpoint called `endpoints` will return all available endpoints.
 from http import HTTPStatus
 from flask import Flask
 from flask_restx import Resource, Api
-import db as db
+
+# import db as db
 
 app = Flask(__name__)
 api = Api(app)
@@ -38,9 +39,9 @@ class Tatoo(Resource):
         """
         The 'get()' method returns an image associated with a word
         """
-        filename = db.get_test_image_url
+        filename = "This is an image"
         # return filename
-        return Flask.send_static_file(filename)
+        return filename
 
 
 @api.route('/endpoints')
