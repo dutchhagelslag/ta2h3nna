@@ -5,9 +5,3 @@
 ##This is Min
 
 https://ta2h3nna.herokuapp.com/
-
-Requirements:\
-1: Create Request: User request for tattoo/henna design and type (ie. flower & old school)\
-2: Fetch Designs\
-3: Fetch artists with correct specialty\
-4: Return estimated price,time consumed, and location\
