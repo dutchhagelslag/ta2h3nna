@@ -28,21 +28,12 @@ class EndpointTestCase(TestCase):
     #     ret = lr.get()
     #     self.assertIsInstance(ret, dict)
 
-    # def test_list_rooms2(self):
-    #     """
-    #     Post-condition 2: keys to the dict are strings
-    #     """
-    #     lr = ep.ListRooms(Resource)
-    #     ret = lr.get()
-    #     for key in ret:
-    #         self.assertIsInstance(key, str)
+    def test_test(self):
+        """
+        Post-condition 2: keys to the dict are strings
+        """
+        lr = ep.Tatoo(Resource)
+        ret = lr.get(str)
+        self.assertIsInstance(ret,str)
 
-    # def test_list_rooms3(self):
-    #     """
-    #     Post-condition 3: the values in the dict are themselves dicts
-    #     """
-    #     lr = ep.ListRooms(Resource)
-    #     ret = lr.get()
-    #     for val in ret.values():
-    #         self.assertIsInstance(val, dict)
 
