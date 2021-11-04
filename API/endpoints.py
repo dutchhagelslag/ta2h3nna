@@ -55,6 +55,7 @@ class CreateUser(Resource):
         """
         return username
 
+
 @api.route('/search_design/<design>')
 class CreateSearchDesign(Resource):
     """
