@@ -32,7 +32,7 @@ class EndpointTestCase(TestCase):
         """
         Post-condition 2: keys to the dict are strings
         """
-        lr = ep.Tatoo(Resource)
+        lr = ep.Tattoo(Resource)
         ret = lr.get(str)
         self.assertIsInstance(ret,str)
 

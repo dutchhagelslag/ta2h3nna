@@ -6,8 +6,9 @@ The endpoint called `endpoints` will return all available endpoints.
 from http import HTTPStatus
 from flask import Flask
 from flask_restx import Resource, Api
+import werkzeug.exceptions as wz
 
-# import db as db
+import db.db as db
 
 app = Flask(__name__)
 api = Api(app)
@@ -30,8 +31,26 @@ class HelloWorld(Resource):
         return {HELLO: WORLD}
 
 
-@api.route('/tatoo_recommendation/<word>')
-class Tatoo(Resource):
+@api.route('/get_fonts')
+class TattooFont(Resource):
+    """
+    This class serves tattoos fonts
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self):
+        """
+        Returns a list of all fonts.
+        """
+        fonts = db.get_fonts()
+        if fonts is None:
+            raise (wz.NotFound("Font db not found."))
+        else:
+            return fonts
+
+
+@api.route('/tattoo_recommendation/<word>')
+class Tattoo(Resource):
     """
     This class serves tatoos
     """
