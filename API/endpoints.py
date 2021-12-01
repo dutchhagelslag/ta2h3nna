@@ -32,7 +32,7 @@ class HelloWorld(Resource):
 
 
 @api.route('/get_fonts')
-class TattooFont(Resource):
+class TattooFonts(Resource):
     """
     This class serves tattoos fonts
     """

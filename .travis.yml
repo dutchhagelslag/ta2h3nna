@@ -18,6 +18,7 @@ deploy:
       app: ta2h3nna
       on:
           branch: master
+
 # after_success:
 #     - ./deploy.sh
 
