@@ -17,6 +17,19 @@ HELLO = 'Hola'
 WORLD = 'mundo'
 
 
+@api.route('/')
+class ServeFrontend(Resource):
+    """
+    The purpose of the ServeFrontend is to deliever the frontend
+    """
+    def get(self):
+        """
+        A trivial endpoint to see if the server is running.
+        It just answers with "hello world."
+        """
+        return "<p>Hello, World!</p>"
+
+
 @api.route('/hello2')
 class HelloWorld(Resource):
     """
@@ -49,18 +62,25 @@ class TattooFonts(Resource):
             return fonts
 
 
-@api.route('/tattoo_recommendation/<word>')
-class Tattoo(Resource):
+@api.route('/get_design/<genre>/<name>')
+class TattooDesigns(Resource):
     """
     This class serves tatoos
     """
-    def get(self, word):
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, genre, name):
         """
-        The 'get()' method returns an image associated with a word
+        The 'get(genre)' method returns the url for the url design associated
+        with a genre
         """
-        filename = "This is an image"
-        # return filename
-        return filename
+        designs = db.get_designs()
+        if designs is None:
+            raise (wz.NotFound("Design db not found."))
+        elif genre not in designs:
+            raise (wz.NotFound("Genre not found."))
+        else:
+            return designs[genre][name]
 
 
 @api.route('/endpoints')

@@ -23,12 +23,12 @@ class EndpointTestCase(TestCase):
         self.assertIsInstance(ret, dict)
 
 
-    def test_test(self):
+    def test_get_design_genre(self):
         """
-        Post-condition 2: keys to the dict are strings
+        Check if get_design return a dict for genre
         """
-        lr = ep.Tattoo(Resource)
-        ret = lr.get(str)
-        self.assertIsInstance(ret,str)
+        lr = ep.TattooDesigns(Resource)
+        ret = lr.get("Classic_Americana")
+        self.assertIsInstance(ret,dict)
 
 
