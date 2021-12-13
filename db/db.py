@@ -22,11 +22,11 @@ OK = 0
 NOT_FOUND = 1
 DUPLICATE = 2
 
-#we'll begin cutting over to mongo!
-if os.environ.get("LOCAL_MONGO", False):
-else:
-    client = pm.MongoClient()
-print(client)
+# #we'll begin cutting over to mongo!
+# if os.environ.get("LOCAL_MONGO", False):
+# else:
+#     client = pm.MongoClient()
+# print(client)
 
 
 def write_collection(perm_version, mem_version):
