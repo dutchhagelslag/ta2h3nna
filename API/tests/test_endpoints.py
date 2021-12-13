@@ -28,7 +28,7 @@ class EndpointTestCase(TestCase):
         Check if get_design return a dict for genre
         """
         lr = ep.TattooDesigns(Resource)
-        ret = lr.get("Classic_Americana")
-        self.assertIsInstance(ret,dict)
+        ret = lr.get("Classic_Americana", "Boxer")
+        self.assertIsInstance(ret,str)
 
 
