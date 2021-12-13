@@ -25,6 +25,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Set env
+        run: pwd >> $TATTOO_HOME
+
       - name: Install Dependencies
         run: make dev_env
 
