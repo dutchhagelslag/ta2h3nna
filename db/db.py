@@ -16,10 +16,17 @@ else:
     DB_DIR = f"{TATTOO_HOME}/db"
 
 FONTS_COLLECTION = f"{DB_DIR}/fonts.json"
+DESIGNS_COLLECTION = f"{DB_DIR}/designs.json"
 
 OK = 0
 NOT_FOUND = 1
 DUPLICATE = 2
+
+# #we'll begin cutting over to mongo!
+# if os.environ.get("LOCAL_MONGO", False):
+# else:
+#     client = pm.MongoClient()
+# print(client)
 
 
 def write_collection(perm_version, mem_version):
@@ -49,10 +56,40 @@ def get_fonts():
     return read_collection(FONTS_COLLECTION)
 
 
-def get_test_image_url(word):
+def get_designs():
     """
-    A function to return path to image to use when testing the API
+    A function to return a dictionary of all designs.
     """
-    # check word or something later idk probably will pivot anyways idc
-    if True:
-        return f"{TATTOO_HOME}/hmm.png"
+    return read_collection(DESIGNS_COLLECTION)
+    # return client[DB_NAME][ROOMS].to_json()
+
+
+def design_exists(design_name):
+    designs = get_designs
+    return design_name in designs
+
+
+def del_design(design_name):
+    """
+    Delete design from the db.
+    """
+    if not design_exists(design_name):
+        return NOT_FOUND
+    return OK
+
+
+# def add_design(design_name):
+#     """
+#     Add a room to the room database.
+#     Until we are using a real DB, we have a potential
+#     race condition here.
+#     """
+#     designs = get_designs()
+#     if designs is None:
+#         return NOT_FOUND
+#     elif design_name in designs:
+#         return DUPLICATE
+#     else:
+#         designs[design_name] = {"": 0}
+#         write_collection(DESIGNS_COLLECTION, designs)
+#         return OK
