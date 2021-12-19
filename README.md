@@ -20,9 +20,13 @@
 - Our API server will be built using Flask_restx
 - All requirements will be handled using endpoints. The main endpoints are:
 
-  -`Tattoo`: takes a string of the input and returns an image of the design
+  -`TattooImage`: takes a string of the input and returns an image of the design
   
-  -`Tattoofont`: serves tattoo fonts
+  -`TattooFonts`: serves a list of all tattoo fonts in the database
+
+  -`ListAllArtists`: serves a list of all tattoo artists in the database
+
+  -`TattooDesigns`: serves a list of all designs available in the database  
   
   -`CreateSearchDesign`: creates a search query from the user's input
 

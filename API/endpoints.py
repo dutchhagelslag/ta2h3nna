@@ -44,6 +44,20 @@ class HelloWorld(Resource):
         return {HELLO: WORLD}
 
 
+@api.route('/tattoo_image')
+class TattooImage(Resource):
+    """
+    This class serves the url to an image of the tattoo input
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self):
+        """
+        returns a url
+        """
+        return "notworking"
+        
+
 @api.route('/get_fonts')
 class TattooFonts(Resource):
     """
@@ -62,10 +76,38 @@ class TattooFonts(Resource):
             return fonts
 
 
+
+@api.route('/get_design/<genre>/<name>/<artist>')
+class ListAllArtists(Resource):
+    """
+    This class serves a list of all artisist in the database
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, artist):
+        """
+        The 'get(artist)' method returns the url for the url design associated
+        with an artist
+        """
+        designs = db.get_designs()
+        if designs is None:
+            raise (wz.NotFound("Design db not found."))
+        elif genre not in designs:
+            raise (wz.NotFound("Genre not found."))
+        elif name not in genre:
+            raise (wz.NotFound("name not found."))
+        elif artist not in name:
+            raise (wz.NotFound("name not found."))
+        else:
+            return designs[genre][name][artist]
+
+
+
+
 @api.route('/get_design/<genre>/<name>')
 class TattooDesigns(Resource):
     """
-    This class serves tatoos
+    This class serves tattoos
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
@@ -83,6 +125,16 @@ class TattooDesigns(Resource):
             return designs[genre][name]
 
 
+@api.route('/search_design/<design>')
+class CreateSearchDesign(Resource):
+    """
+    This class is for creating initial search query
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    def post(self, design):
+        return design
+
+
 @api.route('/endpoints')
 class Endpoints(Resource):
     """
@@ -95,26 +147,3 @@ class Endpoints(Resource):
         """
         endpoints = sorted(rule.rule for rule in api.app.url_map.iter_rules())
         return {"Available endpoints": endpoints}
-
-
-@api.route('/create_user/<username>')
-class CreateUser(Resource):
-    """
-    This class supports adding a user to the chat room.
-    """
-    @api.response(HTTPStatus.OK, 'Success')
-    def post(self, username):
-        """
-        This method adds a user to the chatroom.
-        """
-        return username
-
-
-@api.route('/search_design/<design>')
-class CreateSearchDesign(Resource):
-    """
-    This class is for creating initial search query
-    """
-    @api.response(HTTPStatus.OK, 'Success')
-    def post(self, design):
-        return design
