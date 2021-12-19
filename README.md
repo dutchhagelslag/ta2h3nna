@@ -1,6 +1,11 @@
 # ta2h3nna
+- https://ta2h3nna.herokuapp.com/
+
 ![example workflow](https://github.com/dutchhagelslag/ta2h3nna/actions/workflows/main.yml/badge.svg)
-https://ta2h3nna.herokuapp.com/
+- Github actions (main)
+
+[![Build Status](https://app.travis-ci.com/dutchhagelslag/ta2h3nna.svg?branch=master)](https://app.travis-ci.com/dutchhagelslag/ta2h3nna)
+- Travis (will run out again soon)
 
 ## Requirements
 - Create Request from user input for a tattoo/henna design by type (ie. flower & old school)
