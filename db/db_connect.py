@@ -14,11 +14,9 @@ cloud_mdb = "mongodb+srv"
 db_params = "retryWrites=true&w=majority"
 db_nm = "tattooDB"
 
-client = None
-
-# client = pymongo.MongoClient("mongodb+srv://
-# tattoo:tattoo101@cluster0.tattm.mongodb.net/Cluster0?retryWrites=true&w=majority")
-# db = client.test
+client = pm.MongoClient("mongodb+srv://tattoo:tattoo101@cluster0. \
+        tattm.mongodb.net/Cluster0?retryWrites=true&w=majority")
+db = client.test
 
 
 def get_client():
