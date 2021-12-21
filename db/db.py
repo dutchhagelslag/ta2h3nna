@@ -1,5 +1,5 @@
-import os
-import pymongo as pm
+# import os
+# import pymongo as pm
 import db.db_connect as dbc
 
 # TATTOO_HOME = os.environ["TATTOO_HOME"]
@@ -25,7 +25,6 @@ DUPLICATE = 2
 
 
 client = dbc.get_client()
-
 
 
 if client is None:
@@ -71,8 +70,6 @@ def get_fonts():
     return names
 
 
-
-
 def font_exists(name):
     """
     See if font exists in DB
@@ -91,4 +88,3 @@ def design_exists(name):
     rec = dbc.fetch_one("designs", filters={"name": name})
     print(rec)
     return rec is not None
-

@@ -2,16 +2,16 @@
 This file contains some common MongoDB code.
 """
 import os
-import json
+# import json
 import pymongo as pm
-import bson.json_util as bsutil
 
 # all of these will eventually be put in the env:
-#user_nm = "tattoo"
-#cloud_db = "tattoo101"
-#passwd = os.environ.get("MONGO_PASSWD", '')
-#cloud_mdb = "mongodb+srv"
-#db_params = "retryWrites=true&w=majority"
+# user_nm = "tattoo"
+# cloud_db = "tattoo101"
+# passwd = os.environ.get("MONGO_PASSWD", '')
+# cloud_mdb = "mongodb+srv"
+# db_params = "retryWrites=true&w=majority"
+
 db_nm = "tattooDB"
 
 
@@ -23,7 +23,10 @@ def get_client():
     """
     global client
     global db_tattoo
-    client = pm.MongoClient("mongodb+srv://tattoo:tattoo101@cluster0.tattm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    client = pm.MongoClient("mongodb+srv://tattoo:tattoo101@cluster0.tattm."
+                            "mongodb.net/myFirstDatabase?retryWrites=true&w"
+                            "=majority")
+
     db_tattoo = client[db_nm]
 
     if os.environ.get("LOCAL_MONGO", False):
@@ -42,4 +45,3 @@ def fetch_all(collect_nm):
     #     print(doc)
     #     all_docs += doc["name"]
     # return all_docs
-

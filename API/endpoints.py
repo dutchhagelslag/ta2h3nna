@@ -17,6 +17,7 @@ api = Api(app)
 HELLO = 'Hola'
 WORLD = 'mundo'
 
+
 @api.route('/hello2')
 class HelloWorld(Resource):
     """
@@ -50,7 +51,7 @@ class GetFonts(Resource):
 
 
 @api.route('/get_artists')
-class GetFonts(Resource):
+class GetArtists(Resource):
     """
     This class serves tattoos fonts
     """

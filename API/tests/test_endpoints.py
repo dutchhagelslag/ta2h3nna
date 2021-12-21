@@ -17,18 +17,22 @@ class EndpointTestCase(TestCase):
         self.assertIn(ep.HELLO, ret)
 
 
-    def test_get_fonts(self):
-        fonts = ep.TattooFonts(Resource)
-        ret = fonts.get()
-        self.assertIsInstance(ret, dict)
+    # def test_get_fonts(self):
+    #     fonts = ep.GetFonts(Resource)
+    #     ret = fonts.get()
+    #     self.assertIsInstance(ret, dict)
 
 
-    def test_get_design_genre(self):
-        """
-        Check if get_design return a dict for genre
-        """
-        lr = ep.TattooDesigns(Resource)
-        ret = lr.get("Classic_Americana", "Boxer")
-        self.assertIsInstance(ret,str)
+    # def test_get_artists(self):
+    #     artists = ep.GetArtists(Resource)
+    #     ret = artists.get()
+    #     self.assertIsInstance(ret, dict)
+
+
+    # def test_get_designs(self):
+    #     designs = ep.GetDesigns(Resource)
+    #     ret = designs.get()
+    #     self.assertIsInstance(ret, dict)
+
 
 
