@@ -9,13 +9,35 @@ import endpoints as ep
 
 class EndpointTestCase(TestCase):
 
-
     def test_hello(self):
         hello = ep.HelloWorld(Resource)
         ret = hello.get()
         self.assertIsInstance(ret, dict)
         self.assertIn(ep.HELLO, ret)
 
+    def populate_fonts(self):
+        fonts = ep.Font(Resource)
+
+        assert fonts.put("italian") == 0
+        print("created font: italian")
+
+        assert fonts.put("comic_sans") == 0
+        print("created font: comic_sans")
+
+        assert fonts.put("mono2") == 0
+        print("created font: mono2")
+
+    def delete_populated_fonts(self):
+        fonts = ep.Font(Resource)
+
+        assert fonts.delete("italian") == 0
+        print("deleted font: italian")
+
+        assert fonts.delete("comic_sans") == 0
+        print("deleted font: comic_sans")
+
+        assert fonts.delete("mono2") == 0
+        print("deleted font: mono2")
 
     # def test_get_fonts(self):
     #     fonts = ep.GetFonts(Resource)
