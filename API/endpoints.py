@@ -7,6 +7,7 @@ from http import HTTPStatus
 from flask import Flask
 from flask import jsonify
 from flask_restx import Resource, Api
+
 import werkzeug.exceptions as wz
 
 import db.db as db
@@ -16,6 +17,10 @@ api = Api(app)
 
 HELLO = 'Hola'
 WORLD = 'mundo'
+
+OK = 0
+NOT_FOUND = 1
+DUPLICATE = 2
 
 
 @api.route('/hello2')
@@ -32,68 +37,83 @@ class HelloWorld(Resource):
         return {HELLO: WORLD}
 
 
-@api.route('/get_fonts')
-class GetFonts(Resource):
+@api.route('/all_fonts')
+class AllFonts(Resource):
     """
-    This class serves tattoos fonts
+    This class lists tattoos fonts in json
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self):
         """
-        Returns a list of all font names.
+        Returns a list of all fonts.
         """
         fonts = db.get_fonts()
+
+        names = []
+        for x in fonts:
+            names.append(x['name'])
+
         if fonts is None:
-            raise (wz.NotFound("Font db not found."))
+            raise (wz.NotFound("Fonts not found."))
         else:
-            return jsonify(fonts)
+            return jsonify(names)
 
 
-@api.route('/get_artists')
-class GetArtists(Resource):
+@api.route('/all_artists')
+class AllArtists(Resource):
     """
-    This class serves tattoos fonts
+    This class serves a list artists in json format
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self):
         """
-        Returns a list of all font names.
+        Returns a list of all artsts names
         """
-        fonts = db.get_artists()
-        if fonts is None:
-            raise (wz.NotFound("Font db not found."))
+        artists = db.get_artists()
+
+        names = []
+        for x in artists:
+            names.append(x['name'])
+
+        if artists is None:
+            raise (wz.NotFound("Artists not found."))
         else:
-            return jsonify(fonts)
+            return jsonify(names)
 
 
-@api.route('/get_designs')
-class GetDesigns(Resource):
+@api.route('/all_designs')
+class AllDesigns(Resource):
     """
-    This class serves tattoos fonts
+    This class lists designs in json
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self):
         """
-        Returns a list of all font names.
+        Returns a list of all design names.
         """
-        fonts = db.get_designs()
-        if fonts is None:
-            raise (wz.NotFound("Font db not found."))
+        designs = db.get_designs()
+
+        names = []
+        for x in designs:
+            names.append(x['name'])
+
+        if designs is None:
+            raise (wz.NotFound("Designs not found."))
         else:
-            return jsonify(fonts)
+            return jsonify(names)
 
 
-@api.route('/get_design/<genre>/<name>')
-class GetDesign(Resource):
+@api.route('/design/<name>')
+class Design(Resource):
     """
-    This class serves tatoos
+    This class tatoos info for a given name
     """
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, genre, name):
+    def get(self, name):
         """
         The 'get(genre)' method returns the url for the url design associated
         with a genre
@@ -101,10 +121,70 @@ class GetDesign(Resource):
         designs = db.get_designs()
         if designs is None:
             raise (wz.NotFound("Design db not found."))
-        elif genre not in designs:
-            raise (wz.NotFound("Genre not found."))
         else:
-            return designs[genre][name]
+            return designs.find()
+
+    # def delete(self,name):
+    #     """
+    #     Deletes the design of a given name
+    #     """
+    #     designs = db.get_designs()
+    #     if designs is None:
+    #         raise (wz.NotFound("Design db not found."))
+    #     else:
+    #         return designs.find();
+
+    #     return designs.delete_one({"name":name}).acknowledged
+
+    # def put(self,name):
+    #     """
+    #     Adds or Update new design of a given name
+    #     """
+    #     parser = reqparse.RequestParser()
+    #     parser.add_argument("")
+
+    #     args = parser_args()
+
+
+@api.route('/font/<name>')
+class Font(Resource):
+    """
+    This class tatoos info for a given name
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, name):
+        """
+        The 'get(genre)' method returns the url for the url font associated
+        with a genre
+        """
+        fonts = db.get_fonts()
+        if fonts is None:
+            raise (wz.NotFound("Font db not found."))
+        else:
+            return fonts.find()
+
+    def delete(self, name):
+        """
+        Deletes the font of a given name
+        """
+        fonts = db.get_fonts()
+        if fonts is None:
+            raise (wz.NotFound("Font db not found."))
+        else:
+            fonts.delete_one({"name": name})
+            return OK
+
+    def put(self, name):
+        """
+        Adds or Update new font of a given name
+        """
+        fonts = db.get_fonts()
+        if fonts is None:
+            raise (wz.NotFound("Font db not found."))
+        else:
+            fonts.replace_one({"name": name}, {"name": name}, True)
+            return OK
 
 
 @api.route('/endpoints')
@@ -119,13 +199,3 @@ class Endpoints(Resource):
         """
         endpoints = sorted(rule.rule for rule in api.app.url_map.iter_rules())
         return {"Available endpoints": endpoints}
-
-
-@api.route('/search_design/<design>')
-class CreateSearchDesign(Resource):
-    """
-    This class is for creating initial search query
-    """
-    @api.response(HTTPStatus.OK, 'Success')
-    def post(self, design):
-        return design

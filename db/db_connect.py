@@ -34,11 +34,11 @@ def get_client():
     return client
 
 
-def fetch_all(collect_nm):
-    """
-    Fetch collection given a collection name
-    """
-    return db_tattoo[collect_nm].find()
+# def fetch_all(collect_nm):
+#     """
+#     Fetch collection given a collection name
+#     """
+#     return db_tattoo[collect_nm].find()
 
     # all_docs = []
     # for doc in db_tattoo[collect_nm].find({},{"_id":0,"name":1}):

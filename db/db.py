@@ -26,48 +26,32 @@ DUPLICATE = 2
 
 client = dbc.get_client()
 
-
 if client is None:
     print("Failed to connect to MongoDB.")
     exit(1)
 
+db_tattoo = client["tattooDB"]
+
 
 def get_designs():
     """
-    Returns list of the types of artists
+    Returns collection of designs
     """
-    names = []
-
-    collection = dbc.fetch_all("designs")
-    for x in collection:
-        names.append(x['name'])
-
-    return names
+    return db_tattoo["designs"].find()
 
 
 def get_artists():
     """
-    Returns list of the types of artists
+    Returns collection of artists
     """
-    names = []
-
-    collection = dbc.fetch_all("artists")
-    for x in collection:
-        names.append(x['name'])
-    return names
+    return db_tattoo["artists"].find()
 
 
 def get_fonts():
     """
-    Returns list of the types of fonts
+    Returns collection of fonts
     """
-    names = []
-
-    collection = dbc.fetch_all("fonts")
-    for x in collection:
-        names.append(x['name'])
-
-    return names
+    return db_tattoo["fonts"]
 
 
 def font_exists(name):
@@ -76,7 +60,6 @@ def font_exists(name):
     Returns True of False.
     """
     rec = dbc.fetch_one("fonts", filters={"name": name})
-    print(rec)
     return rec is not None
 
 
@@ -86,5 +69,13 @@ def design_exists(name):
     Returns True of False.
     """
     rec = dbc.fetch_one("designs", filters={"name": name})
-    print(rec)
+    return rec is not None
+
+
+def artist_exists(name):
+    """
+    See if design exists in DB
+    Returns True of False.
+    """
+    rec = dbc.fetch_one("artists", filters={"name": name})
     return rec is not None
