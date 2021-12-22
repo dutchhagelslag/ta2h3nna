@@ -15,7 +15,7 @@ class EndpointTestCase(TestCase):
         self.assertIsInstance(ret, dict)
         self.assertIn(ep.HELLO, ret)
 
-    def populate_fonts(self):
+    def put_fonts(self):
         fonts = ep.Font(Resource)
 
         assert fonts.put("italian") == 0
@@ -27,7 +27,31 @@ class EndpointTestCase(TestCase):
         assert fonts.put("mono2") == 0
         print("created font: mono2")
 
-    def delete_populated_fonts(self):
+    def get_all_artists(self):
+        artists = ep.AllArtists(Resource)
+
+        ret = artists.get() 
+        self.assertIsInstance(ret,dict)
+
+    def get_all_designs(self):
+        designs = ep.AllDesigns(Resource)
+
+        ret = designs.get() 
+        self.assertIsInstance(ret,dict)
+
+    def get_all_fonts(self):
+        fonts = ep.AllFonts(Resource)
+
+        ret = fonts.get() 
+        self.assertIsInstance(ret,dict)
+
+    def get_fonts(self):
+        fonts = ep.Font(Resource)
+        assert fonts.get("italian") == 0 
+        assert fonts.get("comic_sans") == 0 
+        assert fonts.get("mono2") == 0 
+
+    def delete_fonts(self):
         fonts = ep.Font(Resource)
 
         assert fonts.delete("italian") == 0
@@ -55,6 +79,3 @@ class EndpointTestCase(TestCase):
     #     designs = ep.GetDesigns(Resource)
     #     ret = designs.get()
     #     self.assertIsInstance(ret, dict)
-
-
-

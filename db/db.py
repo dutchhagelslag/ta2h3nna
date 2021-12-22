@@ -37,14 +37,14 @@ def get_designs():
     """
     Returns collection of designs
     """
-    return db_tattoo["designs"].find()
+    return db_tattoo["designs"]
 
 
 def get_artists():
     """
     Returns collection of artists
     """
-    return db_tattoo["artists"].find()
+    return db_tattoo["artists"]
 
 
 def get_fonts():

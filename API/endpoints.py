@@ -7,6 +7,7 @@ from http import HTTPStatus
 from flask import Flask
 from flask import jsonify
 from flask_restx import Resource, Api
+from bson import json_util
 
 import werkzeug.exceptions as wz
 
@@ -48,15 +49,15 @@ class AllFonts(Resource):
         """
         Returns a list of all fonts.
         """
-        fonts = db.get_fonts()
-
-        names = []
-        for x in fonts:
-            names.append(x['name'])
+        fonts = db.get_fonts().find()
 
         if fonts is None:
             raise (wz.NotFound("Fonts not found."))
         else:
+            names = []
+            for x in fonts:
+                names.append(x['name'])
+
             return jsonify(names)
 
 
@@ -71,15 +72,14 @@ class AllArtists(Resource):
         """
         Returns a list of all artsts names
         """
-        artists = db.get_artists()
-
-        names = []
-        for x in artists:
-            names.append(x['name'])
+        artists = db.get_artists().find()
 
         if artists is None:
             raise (wz.NotFound("Artists not found."))
         else:
+            names = []
+            for x in artists:
+                names.append(x['name'])
             return jsonify(names)
 
 
@@ -94,15 +94,15 @@ class AllDesigns(Resource):
         """
         Returns a list of all design names.
         """
-        designs = db.get_designs()
-
-        names = []
-        for x in designs:
-            names.append(x['name'])
+        designs = db.get_designs().find()
 
         if designs is None:
             raise (wz.NotFound("Designs not found."))
         else:
+            names = []
+            for x in designs:
+                names.append(x['name'])
+
             return jsonify(names)
 
 
@@ -115,14 +115,14 @@ class Design(Resource):
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, name):
         """
-        The 'get(genre)' method returns the url for the url design associated
-        with a genre
+        The 'get(name)' method returns all info associated with name
         """
         designs = db.get_designs()
         if designs is None:
             raise (wz.NotFound("Design db not found."))
         else:
-            return designs.find()
+            ret = designs.find({"name": name}).next()
+            return json_util.dumps(ret)
 
     # def delete(self,name):
     #     """
@@ -155,14 +155,14 @@ class Font(Resource):
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self, name):
         """
-        The 'get(genre)' method returns the url for the url font associated
-        with a genre
+        The 'get(name)' method returns all info associated with name
         """
         fonts = db.get_fonts()
         if fonts is None:
             raise (wz.NotFound("Font db not found."))
         else:
-            return fonts.find()
+            ret = fonts.find({"name": name}).next()
+            return json_util.dumps(ret)
 
     def delete(self, name):
         """
