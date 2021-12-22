@@ -23,5 +23,32 @@ doc = designCollection.find()
 for doc in doc:
     print(f"{doc=}")
 
-remove = designCollection.delete_one({'fld': 'value'})
+find_one = designColection.find_one({'fld': 'value'})
+print(f"find one = {find_one=}")
+
+remove = designCollection.delete_many({'fld': 'value'})
 print(f"{remove=}")
+
+doc = designCollection.find()
+for doc in doc:
+    print(f"{doc=}")
+
+fontsCollection = client[db_NAME][FONTS]
+
+insert_ret = fontsCollection.insert_one({'fld': 'value'})
+print(f"{insert_ret1=}")
+
+doc = fontsCollection.find()
+
+for doc in doc:
+    print(f"{doc=}")
+
+find_one = fontsCollection.find_one({fld': 'value'})
+print(f"find one = {find_one}")
+
+remove = fontsCollection.delete_many({'fld': 'value'})
+print(f"{remove=}")
+
+doc = fontsCollection.find()
+for doc in doc:
+print(f"{doc=}")
