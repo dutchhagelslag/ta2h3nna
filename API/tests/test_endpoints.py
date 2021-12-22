@@ -45,11 +45,16 @@ class EndpointTestCase(TestCase):
         ret = fonts.get() 
         self.assertIsInstance(ret,dict)
 
-    def get_fonts(self):
+    def get_font(self):
         fonts = ep.Font(Resource)
         assert fonts.get("italian") == 0 
         assert fonts.get("comic_sans") == 0 
         assert fonts.get("mono2") == 0 
+
+    def get_design(self):
+        design = ep.Design(Resource)
+        ret = design.get()
+        self.assertIsInstance(ret,str)
 
     def delete_fonts(self):
         fonts = ep.Font(Resource)
