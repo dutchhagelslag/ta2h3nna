@@ -38,6 +38,19 @@ class HelloWorld(Resource):
         return {HELLO: WORLD}
 
 
+@api.route('/get_handle')
+class GetHandle(Resource):
+    """
+    Get handle to backblaze bucket
+    """
+    def get(self):
+        """
+        Give to frontend -> front end will handle uploading
+        and getting using the handle
+        """
+        return "s3.us-west-004.backblazeb2.com"
+
+
 @api.route('/all_fonts')
 class AllFonts(Resource):
     """
@@ -179,12 +192,14 @@ class Font(Resource):
         """
         Adds or Update new font of a given name
         """
+        # adds entry to mongodb
         fonts = db.get_fonts()
         if fonts is None:
             raise (wz.NotFound("Font db not found."))
         else:
             fonts.replace_one({"name": name}, {"name": name}, True)
             return OK
+        # add file to backblaze bucket
 
 
 @api.route('/endpoints')
