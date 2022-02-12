@@ -5,15 +5,7 @@ import os
 # import json
 import pymongo as pm
 
-# all of these will eventually be put in the env:
-# user_nm = "tattoo"
-# cloud_db = "tattoo101"
-# passwd = os.environ.get("MONGO_PASSWD", '')
-# cloud_mdb = "mongodb+srv"
-# db_params = "retryWrites=true&w=majority"
-
 db_nm = "tattooDB"
-
 
 def get_client():
     """
