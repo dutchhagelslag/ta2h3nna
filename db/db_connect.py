@@ -5,7 +5,9 @@ import os
 # import json
 import pymongo as pm
 
+
 db_nm = "tattooDB"
+
 
 def get_client():
     """
