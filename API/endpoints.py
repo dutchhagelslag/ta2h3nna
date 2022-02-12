@@ -39,16 +39,16 @@ class HelloWorld(Resource):
 
 
 @api.route('/get_handle')
-class HelloWorld(Resource):
+class GetHandle(Resource):
     """
-    Get handle to backblaze bucket  
+    Get handle to backblaze bucket
     """
     def get(self):
         """
         Give to frontend -> front end will handle uploading
         and getting using the handle
         """
-        return "s3.us-west-004.backblazeb2.com"  
+        return "s3.us-west-004.backblazeb2.com"
 
 
 @api.route('/all_fonts')
@@ -199,9 +199,8 @@ class Font(Resource):
         else:
             fonts.replace_one({"name": name}, {"name": name}, True)
             return OK
+        # add file to backblaze bucket
 
-        # add file to backblaze bucket 
-        
 
 @api.route('/endpoints')
 class Endpoints(Resource):
