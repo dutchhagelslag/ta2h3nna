@@ -54,6 +54,36 @@ class GetHandle(Resource):
         return "s3.us-west-004.backblazeb2.com"
 
 
+@api.route('/images/<num>')
+class Font(Resource):
+    """
+    This class tatoos info for a given name
+    """
+    @api.response(HTTPStatus.OK, 'Success')
+    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
+    def get(self, num):
+        """
+        The 'get(name)' method returns all info associated with name
+        """
+        images = db.get_images(n)
+        if images is None:
+            raise (wz.NotFound("Images db not found."))
+        else:
+            return images
+
+@api.route('/get_handle')
+class GetHandle(Resource):
+    """
+    Get handle to backblaze bucket
+    """
+    def get(self):
+        """
+        Give to frontend -> front end will handle uploading
+        and getting using the handle
+        """
+        return "s3.us-west-004.backblazeb2.com"
+
+
 @api.route('/all_fonts')
 class AllFonts(Resource):
     """

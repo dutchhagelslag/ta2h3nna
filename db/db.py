@@ -40,6 +40,13 @@ def get_designs():
     return db_tattoo["designs"]
 
 
+def get_images(num):
+    """
+    Returns collection of n images
+    """
+    return db_tattoo["images"]
+
+
 def get_artists():
     """
     Returns collection of artists
