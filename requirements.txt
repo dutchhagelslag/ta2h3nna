@@ -5,3 +5,4 @@ werkzeug
 pymongo
 pymongo[srv]
 dnspython
+flask-cors
