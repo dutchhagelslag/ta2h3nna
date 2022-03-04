@@ -8,7 +8,7 @@ from flask import Flask
 from flask import jsonify
 from flask_cors import CORS
 from flask_restx import Resource, Api
-from bson import json_util
+from bson.json_util import dumps
 
 import werkzeug.exceptions as wz
 
@@ -54,24 +54,6 @@ class GetHandle(Resource):
         return "s3.us-west-004.backblazeb2.com"
 
 
-@api.route('/images/<num>')
-class Images(Resource):
-    """
-    This class tatoos info for a given name
-    """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, num):
-        """
-        The 'get(name)' method returns all info associated with name
-        """
-        images = db.get_images(num)
-        if images is None:
-            raise (wz.NotFound("Images db not found."))
-        else:
-            return images
-
-
 @api.route('/all_fonts')
 class AllFonts(Resource):
     """
@@ -91,7 +73,6 @@ class AllFonts(Resource):
             names = []
             for x in fonts:
                 names.append(x['name'])
-
             return jsonify(names)
 
 
@@ -126,18 +107,16 @@ class AllDesigns(Resource):
     @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
     def get(self):
         """
-        Returns a list of all design names.
+        Returns a json of all designs and their metadata
         """
         designs = db.get_designs().find()
 
         if designs is None:
             raise (wz.NotFound("Designs not found."))
         else:
-            names = []
-            for x in designs:
-                names.append(x['name'])
-
-            return jsonify(names)
+            list_designs = list(designs)
+            json_data = dumps(list_designs, sort_keys=True, indent=4)
+            return json_data
 
 
 @api.route('/design/<name>')
@@ -156,7 +135,7 @@ class Design(Resource):
             raise (wz.NotFound("Design db not found."))
         else:
             ret = designs.find({"name": name}).next()
-            return json_util.dumps(ret)
+            return jsonify(dumps(ret))
 
     # def delete(self,name):
     #     """
@@ -196,7 +175,7 @@ class Font(Resource):
             raise (wz.NotFound("Font db not found."))
         else:
             ret = fonts.find({"name": name}).next()
-            return json_util.dumps(ret)
+            return dumps(ret)
 
     def delete(self, name):
         """

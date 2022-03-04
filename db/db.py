@@ -23,7 +23,6 @@ DUPLICATE = 2
 #     client = pm.MongoClient()
 # print(client)
 
-
 client = dbc.get_client()
 
 if client is None:
@@ -38,13 +37,6 @@ def get_designs():
     Returns collection of designs
     """
     return db_tattoo["designs"]
-
-
-def get_images(num):
-    """
-    Returns collection of n images
-    """
-    return db_tattoo["images"]
 
 
 def get_artists():
