@@ -2,7 +2,9 @@
 This is the file containing all of the endpoints for our flask app.
 The endpoint called `endpoints` will return all available endpoints.
 """
-
+import base64
+import json
+import urllib.request as urllib2
 from http import HTTPStatus
 from flask import Flask
 from flask import jsonify
@@ -39,6 +41,31 @@ class HelloWorld(Resource):
         It just answers with "hello world."
         """
         return {HELLO: WORLD}
+
+
+@api.route('/authorize_backblaze_access')
+class GetAccess(Resource):
+    """
+    Get json with info to authorize account and access to backblaze api
+    """
+    def get(self):
+        """
+        Give to frontend -> front end will handle uploading
+        and getting using the handle
+        """
+        # remove hardcoded later
+        i = '004d844d9f649930000000001:K0047GFIG2kQiUamOKhEmtq8XuwuWb8'
+        basic_auth_string = 'Basic ' + base64.b64encode(i)
+        headers = {'Authorization': basic_auth_string}
+        request = urllib2.Request(
+            """https://api.s3.us-west-004.backblazeb2.com/
+            b2api/v2/b2_authorize_account""",
+            headers=headers
+            )
+        response = urllib2.urlopen(request)
+        response_data = json.loads(response.read())
+        response.close()
+        return response_data
 
 
 @api.route('/get_handle')
