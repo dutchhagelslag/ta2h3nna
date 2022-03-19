@@ -2,9 +2,7 @@
 This is the file containing all of the endpoints for our flask app.
 The endpoint called `endpoints` will return all available endpoints.
 """
-import base64
-import json
-import urllib.request as urllib2
+import os
 from http import HTTPStatus
 from flask import Flask
 from flask import jsonify
@@ -15,6 +13,9 @@ from bson.json_util import dumps
 import werkzeug.exceptions as wz
 
 import db.db as db
+import requests
+from requests.auth import HTTPBasicAuth
+
 
 app = Flask(__name__)
 CORS(app)
@@ -46,26 +47,34 @@ class HelloWorld(Resource):
 @api.route('/authorize_backblaze_access')
 class GetAccess(Resource):
     """
-    Get json with info to authorize account and access to backblaze api
+    Get json with authorized token to access backblaze api for upload/delete
     """
     def get(self):
         """
         Give to frontend -> front end will handle uploading
         and getting using the handle
         """
-        # remove hardcoded later
-        i = '004d844d9f649930000000001:K0047GFIG2kQiUamOKhEmtq8XuwuWb8'
-        basic_auth_string = 'Basic ' + base64.b64encode(i)
-        headers = {'Authorization': basic_auth_string}
-        request = urllib2.Request(
-            """https://api.s3.us-west-004.backblazeb2.com/
-            b2api/v2/b2_authorize_account""",
-            headers=headers
-            )
-        response = urllib2.urlopen(request)
-        response_data = json.loads(response.read())
-        response.close()
-        return response_data
+        # Auth information from Backblaze
+        key_id = os.environ["BB_KEYID"]
+        application_key = os.environ["BB_APPKEY"]
+
+        # Authenticate
+        path = 'https://api.backblazeb2.com/b2api/v1/b2_authorize_account'
+        result = requests.get(path,
+                              auth=HTTPBasicAuth(key_id, application_key))
+        if result.status_code != 200:
+            print('Error - Could not connect to BackBlaze B2')
+            exit()
+
+        # Read response
+        result_json = result.json()
+        return result_json
+        # account_id = result_json['accountId']
+        # auth_token = result_json['authorizationToken']
+        # api_url    = result_json['apiUrl'] + '/b2api/v1'
+        # download_url = result_json['downloadUrl'] + '/file/'
+        # api_session = requests.Session()
+        # api_session.headers.update({ 'Authorization': auth_token })
 
 
 @api.route('/get_handle')
