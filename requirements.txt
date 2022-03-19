@@ -6,3 +6,4 @@ pymongo
 pymongo[srv]
 dnspython
 flask-cors
+requests
