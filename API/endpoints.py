@@ -77,19 +77,6 @@ class GetAccess(Resource):
         # api_session.headers.update({ 'Authorization': auth_token })
 
 
-@api.route('/get_handle')
-class GetHandle(Resource):
-    """
-    Get handle to backblaze bucket
-    """
-    def get(self):
-        """
-        Give to frontend -> front end will handle uploading
-        and getting using the handle
-        """
-        return "s3.us-west-004.backblazeb2.com"
-
-
 @api.route('/all_fonts')
 class AllFonts(Resource):
     """
