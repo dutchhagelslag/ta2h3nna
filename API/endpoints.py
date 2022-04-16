@@ -22,26 +22,10 @@ CORS(app)
 
 api = Api(app)
 
-HELLO = 'Hola'
-WORLD = 'mundo'
 
 OK = 0
 NOT_FOUND = 1
 DUPLICATE = 2
-
-
-@api.route('/hello2')
-class HelloWorld(Resource):
-    """
-    The purpose of the HelloWorld class is to have a simple test to see if the
-    app is working at all.
-    """
-    def get(self):
-        """
-        A trivial endpoint to see if the server is running.
-        It just answers with "hello world."
-        """
-        return {HELLO: WORLD}
 
 
 @api.route('/authorize_backblaze_access')
@@ -69,56 +53,6 @@ class GetAccess(Resource):
         # Read response
         result_json = result.json()
         return result_json
-        # account_id = result_json['accountId']
-        # auth_token = result_json['authorizationToken']
-        # api_url    = result_json['apiUrl'] + '/b2api/v1'
-        # download_url = result_json['downloadUrl'] + '/file/'
-        # api_session = requests.Session()
-        # api_session.headers.update({ 'Authorization': auth_token })
-
-
-@api.route('/all_fonts')
-class AllFonts(Resource):
-    """
-    This class lists tattoos fonts in json
-    """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self):
-        """
-        Returns a list of all fonts.
-        """
-        fonts = db.get_fonts().find()
-
-        if fonts is None:
-            raise (wz.NotFound("Fonts not found."))
-        else:
-            names = []
-            for x in fonts:
-                names.append(x['name'])
-            return jsonify(names)
-
-
-@api.route('/all_artists')
-class AllArtists(Resource):
-    """
-    This class serves a list artists in json format
-    """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self):
-        """
-        Returns a list of all artsts names
-        """
-        artists = db.get_artists().find()
-
-        if artists is None:
-            raise (wz.NotFound("Artists not found."))
-        else:
-            names = []
-            for x in artists:
-                names.append(x['name'])
-            return jsonify(names)
 
 
 @api.route('/all_designs')
@@ -172,57 +106,14 @@ class Design(Resource):
 
     #     return designs.delete_one({"name":name}).acknowledged
 
-    # def put(self,name):
-    #     """
-    #     Adds or Update new design of a given name
-    #     """
-    #     parser = reqparse.RequestParser()
-    #     parser.add_argument("")
-
-    #     args = parser_args()
-
-
-@api.route('/font/<name>')
-class Font(Resource):
-    """
-    This class tatoos info for a given name
-    """
     @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, name):
+    @api.response(HTTPStatus.NOT_FOUND, 'Upload Failed')
+    def put(self, metadata):
         """
-        The 'get(name)' method returns all info associated with name
+        Adds or Update design into mongodb store
         """
-        fonts = db.get_fonts()
-        if fonts is None:
-            raise (wz.NotFound("Font db not found."))
-        else:
-            ret = fonts.find({"name": name}).next()
-            return dumps(ret)
-
-    def delete(self, name):
-        """
-        Deletes the font of a given name
-        """
-        fonts = db.get_fonts()
-        if fonts is None:
-            raise (wz.NotFound("Font db not found."))
-        else:
-            fonts.delete_one({"name": name})
-            return OK
-
-    def put(self, name):
-        """
-        Adds or Update new font of a given name
-        """
-        # adds entry to mongodb
-        fonts = db.get_fonts()
-        if fonts is None:
-            raise (wz.NotFound("Font db not found."))
-        else:
-            fonts.replace_one({"name": name}, {"name": name}, True)
-            return OK
-        # add file to backblaze bucket
+        # 1) seperate metadata into key value pairs
+        # 2) call upload into mongodb function from data
 
 
 @api.route('/endpoints')
