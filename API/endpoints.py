@@ -35,8 +35,7 @@ class GetAccess(Resource):
     """
     def get(self):
         """
-        Give to frontend -> front end will handle uploading
-        and getting using the handle
+        Give auth token and bb api
         """
         # Auth information from Backblaze
         key_id = os.environ["BB_KEYID"]
@@ -48,11 +47,50 @@ class GetAccess(Resource):
                               auth=HTTPBasicAuth(key_id, application_key))
         if result.status_code != 200:
             print('Error - Could not connect to BackBlaze B2')
-            exit()
 
         # Read response
-        result_json = result.json()
-        return result_json
+        return result.json()
+
+
+@api.route('/get_upload_url')
+class GetUpload_Url(Resource):
+    """
+    Get json with url to upload
+    """
+    def get(self):
+        """
+        Get json with url to upload
+        """
+
+        # Auth information from Backblaze
+        key_id = os.environ["BB_KEYID"]
+        application_key = os.environ["BB_APPKEY"]
+
+        # Authenticate
+        path = 'https://api.backblazeb2.com/b2api/v1/b2_authorize_account'
+        result = requests.get(path,
+                              auth=HTTPBasicAuth(key_id, application_key))
+        if result.status_code != 200:
+            print('Error - Could not connect to BackBlaze B2')
+
+        # Read response
+        auth = result.json()
+
+        api_url = auth['apiUrl'] + '/b2api/v2/b2_get_upload_url'
+
+        print(api_url)
+        account_authorization_token = auth['authorizationToken']
+        bucket_id = "8d5894f45da9ef2674e90913"
+
+        url_res = requests.post(api_url,
+                                json={'bucketId': bucket_id},
+                                headers={'Authorization':
+                                         account_authorization_token})
+
+        if url_res.status_code != 200:
+            print('Error - Could not connect to BackBlaze B2/')
+
+        return url_res.json()
 
 
 @api.route('/all_designs')
