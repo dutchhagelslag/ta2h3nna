@@ -6,6 +6,7 @@ import os
 from http import HTTPStatus
 from flask import Flask
 from flask import jsonify
+from flask import request
 from flask_cors import CORS
 from flask_restx import Resource, Api
 from bson.json_util import dumps
@@ -114,7 +115,7 @@ class AllDesigns(Resource):
             return json_data
 
 
-@api.route('/design/<name>')
+@api.route('/design/<name>', methods=['GET', 'PUT'])
 class Design(Resource):
     """
     This class tatoos info for a given name
@@ -146,12 +147,12 @@ class Design(Resource):
 
     @api.response(HTTPStatus.OK, 'Success')
     @api.response(HTTPStatus.NOT_FOUND, 'Upload Failed')
-    def put(self, metadata):
+    def put(self, name):
         """
         Adds or Update design into mongodb store
         """
-        # 1) seperate metadata into key value pairs
-        # 2) call upload into mongodb function from data
+        content = request.get_json(force=True)
+        db.upload_design_meta(content)
 
 
 @api.route('/endpoints')
