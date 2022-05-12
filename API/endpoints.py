@@ -9,8 +9,6 @@ from flask_cors import CORS
 from flask_restx import Resource, Api
 from bson.json_util import dumps
 
-import werkzeug.exceptions as wz
-
 import db.db as db
 import requests
 from requests.auth import HTTPBasicAuth
@@ -56,7 +54,6 @@ class GetUpload_Url(Resource):
         """
         Get json with url to upload
         """
-
         # Auth information from Backblaze
         key_id = os.environ["BB_KEYID"]
         application_key = os.environ["BB_APPKEY"]
@@ -65,8 +62,6 @@ class GetUpload_Url(Resource):
         path = 'https://api.backblazeb2.com/b2api/v1/b2_authorize_account'
         result = requests.get(path,
                               auth=HTTPBasicAuth(key_id, application_key))
-        if result.status_code != 200:
-            print('Error - Could not connect to BackBlaze B2')
 
         # Read response
         auth = result.json()
@@ -81,9 +76,6 @@ class GetUpload_Url(Resource):
                                 json={'bucketId': bucket_id},
                                 headers={'Authorization':
                                          account_authorization_token})
-
-        if url_res.status_code != 200:
-            print('Error - Could not connect to BackBlaze B2/')
 
         return url_res.json()
 
@@ -101,12 +93,9 @@ class AllDesigns(Resource):
         """
         designs = db.get_designs().find()
 
-        if designs is None:
-            raise (wz.NotFound("Designs not found."))
-        else:
-            list_designs = list(designs)
-            json_data = dumps(list_designs, sort_keys=True, indent=4)
-            return json_data
+        list_designs = list(designs)
+        json_data = dumps(list_designs, sort_keys=True, indent=4)
+        return json_data
 
 
 @api.route('/endpoints')
