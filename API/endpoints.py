@@ -5,8 +5,6 @@ The endpoint called `endpoints` will return all available endpoints.
 import os
 from http import HTTPStatus
 from flask import Flask
-from flask import jsonify
-from flask import request
 from flask_cors import CORS
 from flask_restx import Resource, Api
 from bson.json_util import dumps
@@ -22,7 +20,6 @@ app = Flask(__name__)
 CORS(app)
 
 api = Api(app)
-
 
 OK = 0
 NOT_FOUND = 1
@@ -46,9 +43,6 @@ class GetAccess(Resource):
         path = 'https://api.backblazeb2.com/b2api/v1/b2_authorize_account'
         result = requests.get(path,
                               auth=HTTPBasicAuth(key_id, application_key))
-        if result.status_code != 200:
-            print('Error - Could not connect to BackBlaze B2')
-
         # Read response
         return result.json()
 
@@ -113,46 +107,6 @@ class AllDesigns(Resource):
             list_designs = list(designs)
             json_data = dumps(list_designs, sort_keys=True, indent=4)
             return json_data
-
-
-@api.route('/design/<name>', methods=['GET', 'PUT'])
-class Design(Resource):
-    """
-    This class tatoos info for a given name
-    """
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Not Found')
-    def get(self, name):
-        """
-        The 'get(name)' method returns all info associated with name
-        """
-        designs = db.get_designs()
-        if designs is None:
-            raise (wz.NotFound("Design db not found."))
-        else:
-            ret = designs.find({"name": name}).next()
-            return jsonify(dumps(ret))
-
-    # def delete(self,name):
-    #     """
-    #     Deletes the design of a given name
-    #     """
-    #     designs = db.get_designs()
-    #     if designs is None:
-    #         raise (wz.NotFound("Design db not found."))
-    #     else:
-    #         return designs.find();
-
-    #     return designs.delete_one({"name":name}).acknowledged
-
-    @api.response(HTTPStatus.OK, 'Success')
-    @api.response(HTTPStatus.NOT_FOUND, 'Upload Failed')
-    def put(self, name):
-        """
-        Adds or Update design into mongodb store
-        """
-        content = request.get_json(force=True)
-        db.upload_design_meta(content)
 
 
 @api.route('/endpoints')

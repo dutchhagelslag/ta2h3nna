@@ -9,10 +9,10 @@ export TEST_MODE = 1
 
 FORCE:
 
-tests: lint unit
+tests: lint unit 
 
 unit: FORCE
-	$(TESTFINDER) --with-coverage
+	$(TESTFINDER) --with-coverage --coverage-report term-missing
 
 lint: FORCE
 	$(LINTER) *.py

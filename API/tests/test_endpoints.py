@@ -9,20 +9,21 @@ import endpoints as ep
 
 class EndpointTestCase(TestCase):
 
-    def get_all_artists(self):
-        artists = ep.AllArtists(Resource)
-
-        ret = artists.get() 
-        self.assertIsInstance(ret,dict)
-
     def get_all_designs(self):
         designs = ep.AllDesigns(Resource)
-
         ret = designs.get() 
         self.assertIsInstance(ret,dict)
 
-    def get_design(self):
-        design = ep.Design(Resource)
-        ret = design.get()
-        self.assertIsInstance(ret,str)
+    def authorize_backblaze(self):
+        designs = ep.GetAccess(Resource)
+        ret = designs.get()
+        assert ret.status_code == 200
 
+    def get_upload_url(self):
+        designs = ep.GetUpload_Url(Resource)
+        ret = designs.get()
+        assert ret.status_code == 200
+
+
+    
+    
