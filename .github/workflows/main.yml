@@ -2,6 +2,10 @@
 
 name: CI
 
+env:
+  BB_APPKEY: ${{ secrets.BB_KEY }}
+  BB_KEYID: ${{ secrets.BB_KEY_ID }}
+
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
